@@ -17,9 +17,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PC.Group.Transactions.Application\PC.Group.Transactions.Application.csproj" />
     <ProjectReference Include="..\pc.group.transactions.client\pc.group.transactions.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\PC.Group.Transactions.Infrastructure\PC.Group.Transactions.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>
