@@ -1,0 +1,6 @@
+@PC.Group.Transactions.Server_HostAddress = http://localhost:5250
+
+GET {{PC.Group.Transactions.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
