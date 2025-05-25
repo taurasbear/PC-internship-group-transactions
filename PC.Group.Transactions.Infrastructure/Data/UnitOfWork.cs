@@ -10,9 +10,49 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly TransactionContext transactionContext;
 
+    private IGroupRepository? groupRepository;
+
+    private IMemberRepository? memberRepository;
+
+    private ITransactionPortionRepository? transactionPortionRepository;
+
+    private ITransactionRepository? transactionRepository;
+
     private IUserRepository? userRepository;
 
     private bool disposed;
+
+    public IGroupRepository GroupRepository
+    {
+        get
+        {
+            return this.groupRepository ??= new GroupRepository(transactionContext);
+        }
+    }
+
+    public IMemberRepository MemberRepository
+    {
+        get
+        {
+            return this.memberRepository ??= new MemberRepository(transactionContext);
+        }
+    }
+
+    public ITransactionPortionRepository TransactionPortionRepository
+    {
+        get
+        {
+            return this.transactionPortionRepository ??= new TransactionPortionRepository(transactionContext);
+        }
+    }
+
+    public ITransactionRepository TransactionRepository
+    {
+        get
+        {
+            return this.transactionRepository ??= new TransactionRepository(transactionContext);
+        }
+    }
 
     public IUserRepository UserRepository
     {
