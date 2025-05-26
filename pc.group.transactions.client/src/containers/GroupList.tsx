@@ -1,4 +1,4 @@
-import GroupCard from "@/components/GroupCard";
+import GroupCard from "@/components/GroupList/GroupCard";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,8 +12,22 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useGetGroupsSummaries } from "@/utils/queries/GroupQueries";
 
 const GroupList = () => {
+  const {
+    data: groups,
+    error,
+    isLoading,
+  } = useGetGroupsSummaries({ userId: 1 });
+
+  if (isLoading) {
+    return <h1>Is loading</h1>;
+  }
+
+  if (error) {
+    return <h1>{error.message}</h1>;
+  }
   return (
     <div className="flex flex-col items-center w-full">
       <h1 className="font-extralight text-3xl">Groups</h1>
@@ -46,7 +60,11 @@ const GroupList = () => {
             </DialogContent>
           </Dialog>
         </div>
-        <GroupCard />
+        <div className="grid gap-y-10">
+          {groups?.groupSummaries.map((summary) => (
+            <GroupCard key={summary.groupId} group={summary} />
+          ))}
+        </div>
       </div>
     </div>
   );

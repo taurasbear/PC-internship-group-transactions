@@ -6,6 +6,8 @@ public class Transaction : BaseEntity
 {
     public decimal Amount { get; set; }
 
+    public DateTime CreatedAt { get; set; }
+
     public SplittingMethod Method { get; set; }
 
     public long PayerId { get; set; }

@@ -1,4 +1,5 @@
 ﻿namespace PC.Group.Transactions.Application.Common.Exception;
+
 using System;
 
 public class BadRequestException : Exception

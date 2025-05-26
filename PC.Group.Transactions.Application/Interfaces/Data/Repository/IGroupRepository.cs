@@ -4,4 +4,5 @@ using PC.Group.Transactions.Domain.Entities;
 
 public interface IGroupRepository : IBaseRepository<Group>
 {
+    public Task<List<Group>> GetGroupsDetailsByUserIdAsync(long userId, CancellationToken cancellationToken);
 }

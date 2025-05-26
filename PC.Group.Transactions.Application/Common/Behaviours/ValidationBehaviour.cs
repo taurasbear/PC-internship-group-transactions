@@ -1,4 +1,5 @@
 ﻿namespace PC.Group.Transactions.Application.Common.Behaviours;
+
 using FluentValidation;
 using MediatR;
 using PC.Group.Transactions.Application.Common.Exception;
