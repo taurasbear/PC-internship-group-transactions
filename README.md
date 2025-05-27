@@ -36,6 +36,9 @@ A simple web app for splitting bills with friends and alike.
 
 ## Screenshots
 
+### Entity-relationships diagram
+![Entity-relationships diagram](PC-internship-group-transactions.png)
+
 ### Figma prototype
 
 ![Group list page](groups.png)
