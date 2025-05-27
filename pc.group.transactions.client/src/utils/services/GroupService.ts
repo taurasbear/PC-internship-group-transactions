@@ -1,7 +1,7 @@
 import axiosClient from "@/api/axiosClient";
-import type { AddGroupRequest } from "@/shared/types/features/addGroup/AddGroupRequest";
-import type { GetGroupsSummariesRequest } from "@/shared/types/features/getGroupsSummaries/GetGroupsSummariesRequest";
-import type { GetGroupsSummariesResponse } from "@/shared/types/features/getGroupsSummaries/GetGroupsSummariesResponse";
+import type { AddGroupRequest } from "@/shared/types/features/group/addGroup/AddGroupRequest";
+import type { GetGroupsSummariesRequest } from "@/shared/types/features/group/getGroupsSummaries/GetGroupsSummariesRequest";
+import type { GetGroupsSummariesResponse } from "@/shared/types/features/group/getGroupsSummaries/GetGroupsSummariesResponse";
 
 class GroupService {
   static async getGroupsSummaries(

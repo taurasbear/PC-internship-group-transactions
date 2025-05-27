@@ -94,10 +94,10 @@ public static class ModelBuilderExtensions
             new TransactionPortion { Id = 19, DebtorId = 2, TransactionId = 6, Amount = 20 },
             new TransactionPortion { Id = 20, DebtorId = 3, TransactionId = 6, Amount = 20 },
 
-            // Transaction 7: Equally (Group 1, 3 members)
-            new TransactionPortion { Id = 21, DebtorId = 1, TransactionId = 7, Amount = 30 },
-            new TransactionPortion { Id = 22, DebtorId = 2, TransactionId = 7, Amount = 30 },
-            new TransactionPortion { Id = 23, DebtorId = 3, TransactionId = 7, Amount = 30 },
+            // Transaction 7: Equally (Group 1, 2 members)
+            //new TransactionPortion { Id = 21, DebtorId = 1, TransactionId = 7, Amount = 30 },
+            new TransactionPortion { Id = 22, DebtorId = 2, TransactionId = 7, Amount = 45 },
+            new TransactionPortion { Id = 23, DebtorId = 3, TransactionId = 7, Amount = 45 },
 
             // Transaction 2: Percentage (Group 2, 5 members: 32%, 24%, 20%, 16%, 8%)
             new TransactionPortion { Id = 4, DebtorId = 4, TransactionId = 2, Amount = 32 }, // MemberId 4 (User 2)

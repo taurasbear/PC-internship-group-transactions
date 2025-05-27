@@ -1,5 +1,6 @@
 import AddGroupDialog from "@/components/GroupList/AddGroupDialog";
 import GroupCard from "@/components/GroupList/GroupCard";
+import QueryBoundary from "@/components/shared/QueryBoundary";
 import {
   useAddGroup,
   useGetGroupsSummaries,
@@ -22,35 +23,30 @@ const GroupList = () => {
       .then(() => {
         toast("Successfully added a group");
         queryClient.invalidateQueries({
-          queryKey: ["summaries", { userId: userId }],
+          queryKey: ["group-summaries", { userId: userId }],
         });
       })
       .catch((error) =>
-        toast(`Something went wrong while adding a group: ${error.message}`)
+        toast(`Something went wrong while adding a group: ${error.message}`),
       );
   };
 
-  if (isLoading) {
-    return <h1>Is loading</h1>;
-  }
-
-  if (error) {
-    return <h1>{error.message}</h1>;
-  }
   return (
-    <div className="flex flex-col items-center w-full">
-      <h1 className="font-extralight text-3xl">Groups</h1>
-      <div className="w-xs pt-16">
-        <div className="flex justify-end pb-2 pr-2">
-          <AddGroupDialog onAdd={handleAdd} />
-        </div>
-        <div className="grid gap-y-10">
-          {groups?.groupSummaries.map((summary) => (
-            <GroupCard key={summary.groupId} group={summary} />
-          ))}
+    <QueryBoundary isLoading={isLoading} error={error}>
+      <div className="flex w-full flex-col items-center">
+        <h1 className="text-3xl font-extralight">Groups</h1>
+        <div className="w-xs pt-16">
+          <div className="flex justify-end pr-2 pb-2">
+            <AddGroupDialog onAdd={handleAdd} />
+          </div>
+          <div className="grid gap-y-10">
+            {groups?.groupSummaries.map((summary) => (
+              <GroupCard key={summary.groupId} group={summary} />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </QueryBoundary>
   );
 };
 

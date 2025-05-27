@@ -16,11 +16,22 @@ public class GroupRepository : BaseRepository<Group>, IGroupRepository
     public async Task<List<Group>> GetGroupsDetailsByUserIdAsync(long userId, CancellationToken cancellationToken)
     {
         return await this.transactionContext.Groups
-            .Where(group => group.Members.Any(m => m.UserId == userId))
+            .Where(group => group.Members.Any(member => member.UserId == userId))
             .Include(group => group.Members)
                .ThenInclude(member => member.TransactionPortions)
             .Include(group => group.Members)
                 .ThenInclude(member => member.Transactions)
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<Group?> GetGroupDetailsByGroupIdAsync(long groupId, CancellationToken cancellationToken)
+    {
+        return await this.transactionContext.Groups
+            .Include(group => group.Members)
+                .ThenInclude(member => member.Transactions)
+                    .ThenInclude(transaction => transaction.TransactionPortions)
+            .Include(group => group.Members)
+                .ThenInclude(member => member.User)
+            .FirstOrDefaultAsync(group => group.Id == groupId, cancellationToken);
     }
 }
