@@ -11,17 +11,11 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
-import { Route as GroupGroupIdImport } from './routes/group/$groupId'
+import { Route as GroupGroupIdIndexImport } from './routes/group/$groupId/index'
+import { Route as GroupGroupIdTransactionsNewImport } from './routes/group/$groupId/transactions/new'
 
 // Create/Update Routes
-
-const AboutRoute = AboutImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -29,11 +23,18 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const GroupGroupIdRoute = GroupGroupIdImport.update({
-  id: '/group/$groupId',
-  path: '/group/$groupId',
+const GroupGroupIdIndexRoute = GroupGroupIdIndexImport.update({
+  id: '/group/$groupId/',
+  path: '/group/$groupId/',
   getParentRoute: () => rootRoute,
 } as any)
+
+const GroupGroupIdTransactionsNewRoute =
+  GroupGroupIdTransactionsNewImport.update({
+    id: '/group/$groupId/transactions/new',
+    path: '/group/$groupId/transactions/new',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -46,18 +47,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
-      parentRoute: typeof rootRoute
-    }
-    '/group/$groupId': {
-      id: '/group/$groupId'
+    '/group/$groupId/': {
+      id: '/group/$groupId/'
       path: '/group/$groupId'
       fullPath: '/group/$groupId'
-      preLoaderRoute: typeof GroupGroupIdImport
+      preLoaderRoute: typeof GroupGroupIdIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/group/$groupId/transactions/new': {
+      id: '/group/$groupId/transactions/new'
+      path: '/group/$groupId/transactions/new'
+      fullPath: '/group/$groupId/transactions/new'
+      preLoaderRoute: typeof GroupGroupIdTransactionsNewImport
       parentRoute: typeof rootRoute
     }
   }
@@ -67,42 +68,42 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/group/$groupId': typeof GroupGroupIdRoute
+  '/group/$groupId': typeof GroupGroupIdIndexRoute
+  '/group/$groupId/transactions/new': typeof GroupGroupIdTransactionsNewRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/group/$groupId': typeof GroupGroupIdRoute
+  '/group/$groupId': typeof GroupGroupIdIndexRoute
+  '/group/$groupId/transactions/new': typeof GroupGroupIdTransactionsNewRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/group/$groupId': typeof GroupGroupIdRoute
+  '/group/$groupId/': typeof GroupGroupIdIndexRoute
+  '/group/$groupId/transactions/new': typeof GroupGroupIdTransactionsNewRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/group/$groupId'
+  fullPaths: '/' | '/group/$groupId' | '/group/$groupId/transactions/new'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/group/$groupId'
-  id: '__root__' | '/' | '/about' | '/group/$groupId'
+  to: '/' | '/group/$groupId' | '/group/$groupId/transactions/new'
+  id: '__root__' | '/' | '/group/$groupId/' | '/group/$groupId/transactions/new'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
-  GroupGroupIdRoute: typeof GroupGroupIdRoute
+  GroupGroupIdIndexRoute: typeof GroupGroupIdIndexRoute
+  GroupGroupIdTransactionsNewRoute: typeof GroupGroupIdTransactionsNewRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
-  GroupGroupIdRoute: GroupGroupIdRoute,
+  GroupGroupIdIndexRoute: GroupGroupIdIndexRoute,
+  GroupGroupIdTransactionsNewRoute: GroupGroupIdTransactionsNewRoute,
 }
 
 export const routeTree = rootRoute
@@ -116,18 +117,18 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about",
-        "/group/$groupId"
+        "/group/$groupId/",
+        "/group/$groupId/transactions/new"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/about": {
-      "filePath": "about.tsx"
+    "/group/$groupId/": {
+      "filePath": "group/$groupId/index.tsx"
     },
-    "/group/$groupId": {
-      "filePath": "group/$groupId.tsx"
+    "/group/$groupId/transactions/new": {
+      "filePath": "group/$groupId/transactions/new.tsx"
     }
   }
 }

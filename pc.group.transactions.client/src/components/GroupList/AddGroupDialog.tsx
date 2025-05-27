@@ -26,13 +26,16 @@ export interface AddGroupDialogProps {
   onAdd: (title: string) => Promise<void>;
 }
 
+const minGroupTitleLength = Number(import.meta.env.VITE_MIN_GROUP_TITLE_LENGTH);
+const maxGroupTitleLength = Number(import.meta.env.VITE_MAX_GROUP_TITLE_LENGTH);
+
 const formSchema = z.object({
   title: z
     .string()
-    .min(import.meta.env.VITE_MIN_GROUP_TITLE_LENGTH, {
+    .min(minGroupTitleLength, {
       message: "Group title is required",
     })
-    .max(import.meta.env.VITE_MAX_GROUP_TITLE_LENGTH, {
+    .max(maxGroupTitleLength, {
       message: "Group title should be less than 30 characters",
     }),
 });
@@ -57,7 +60,7 @@ const AddGroupDialog: React.FC<AddGroupDialogProps> = ({ onAdd }) => {
   return (
     <Dialog onOpenChange={(open) => handleOpen(open)}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="h-6 w-30 items-end">
+        <Button variant="outline" className="items-end">
           + Add group
         </Button>
       </DialogTrigger>
@@ -88,6 +91,7 @@ const AddGroupDialog: React.FC<AddGroupDialogProps> = ({ onAdd }) => {
                 <Button
                   variant="secondary"
                   type="submit"
+                  onClick={form.handleSubmit(onSubmit)}
                   disabled={
                     !form.formState.isValid || form.formState.isSubmitting
                   }

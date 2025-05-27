@@ -1,5 +1,4 @@
-import AddGroupDialog from "@/components/GroupList/AddGroupDialog";
-import GroupCard from "@/components/GroupList/GroupCard";
+import GroupListView from "@/components/GroupList/GroupListView";
 import QueryBoundary from "@/components/shared/QueryBoundary";
 import {
   useAddGroup,
@@ -18,6 +17,7 @@ const GroupList = () => {
   } = useGetGroupsSummaries({ userId: userId });
   const addGroup = useAddGroup();
   const handleAdd = async (title: string) => {
+    console.log("GOT IT!")
     await addGroup
       .mutateAsync({ userId: userId, title: title })
       .then(() => {
@@ -33,19 +33,7 @@ const GroupList = () => {
 
   return (
     <QueryBoundary isLoading={isLoading} error={error}>
-      <div className="flex w-full flex-col items-center">
-        <h1 className="text-3xl font-extralight">Groups</h1>
-        <div className="w-xs pt-16">
-          <div className="flex justify-end pr-2 pb-2">
-            <AddGroupDialog onAdd={handleAdd} />
-          </div>
-          <div className="grid gap-y-10">
-            {groups?.groupSummaries.map((summary) => (
-              <GroupCard key={summary.groupId} group={summary} />
-            ))}
-          </div>
-        </div>
-      </div>
+      <GroupListView onAdd={handleAdd} groups={groups!} />
     </QueryBoundary>
   );
 };
