@@ -63,7 +63,7 @@ public static class ModelBuilderExtensions
             new Transaction { Id = 1, PayerId = 1, Amount = 33, Method = SplittingMethod.Equally, CreatedAt = DateTime.UtcNow.AddDays(-10) },
             // 2 more transactions for group 1 here
             new Transaction { Id = 6, PayerId = 2, Amount = 60, Method = SplittingMethod.Equally, CreatedAt = DateTime.UtcNow.AddDays(-9) },
-            new Transaction { Id = 7, PayerId = 3, Amount = 90, Method = SplittingMethod.Equally, CreatedAt = DateTime.UtcNow.AddDays(-8) },
+            new Transaction { Id = 7, PayerId = 3, Amount = 90, Method = SplittingMethod.Dynamic, CreatedAt = DateTime.UtcNow.AddDays(-8) },
 
             // Group 2: Percentage (Payer and debtors are members of Group 2)
             new Transaction { Id = 2, PayerId = 18, Amount = 100, Method = SplittingMethod.Percentage, CreatedAt = DateTime.UtcNow.AddDays(-8) },

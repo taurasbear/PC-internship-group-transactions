@@ -4,6 +4,7 @@ import TransactionCard from "@/components/GroupDetails/TransactionCard";
 import QueryBoundary from "@/components/shared/QueryBoundary";
 import { Button } from "@/components/ui/button";
 import { Route } from "@/routes/group/$groupId";
+import { useGetMembersSummaries } from "@/utils/queries/MemberQueries";
 import { useGetTransactionsSummaries } from "@/utils/queries/TransactionQueries";
 
 const GroupDetails = () => {
@@ -12,26 +13,40 @@ const GroupDetails = () => {
 
   const {
     data: transactions,
-    error,
-    isLoading,
+    error: groupsError,
+    isLoading: groupsIsLoading,
   } = useGetTransactionsSummaries({
     userId: import.meta.env.VITE_USER_ID,
     groupId: groupIdNumber,
   });
 
+  const {
+    data: members,
+    error: membersError,
+    isLoading: membersIsLoading,
+  } = useGetMembersSummaries({
+    userId: import.meta.env.VITE_USER_ID,
+    groupId: groupIdNumber,
+  });
+
   return (
-    <QueryBoundary isLoading={isLoading} error={error}>
+    <QueryBoundary
+      isLoading={groupsIsLoading || membersIsLoading}
+      error={groupsError || membersError}
+    >
       <div className="flex flex-col items-center justify-center">
-        <h1>{groupId}</h1>
+        <h1 className="text-3xl font-extralight">{members?.groupTitle}</h1>
         <div className="flex flex-row gap-x-4">
-          <div className="grid w-xs gap-y-10 pt-16 self-start">
+          <div className="grid w-xs gap-y-10 self-start pt-16">
             <div className="flex flex-row justify-around">
               <Button className="h-6 w-36">+ New transaction</Button>
               <Button className="h-6 w-30" variant="outline">
                 + Add member
               </Button>
             </div>
-            <MemberCard />
+            {members?.memberSummaries.map((member) => (
+              <MemberCard key={member.memberId} member={member} />
+            ))}
           </div>
           <div className="flex flex-col">
             <h1 className="w-full text-end">All transactions</h1>

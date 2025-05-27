@@ -1,6 +1,11 @@
+import type { MemberSummary } from "@/shared/types/features/member/getMembersSummaries/GetMembersSummariesResponse";
 import { Button } from "../ui/button";
 
-const MemberCard = () => {
+export interface MemberCardProps {
+  member: MemberSummary;
+}
+
+const MemberCard: React.FC<MemberCardProps> = ({ member }) => {
   return (
     <div className="bg-card relative flex w-full flex-row shadow">
       <div className="absolute pt-1 pl-1">
@@ -17,9 +22,11 @@ const MemberCard = () => {
       </div>
 
       <div className="flex w-full flex-col p-2">
-        <h2 className="text-lg font-normal">Timmy Parker</h2>
-        <p className="text-md font-light">Owes you</p>
-        <p className="text-end text-2xl font-bold">2.42 €</p>
+        <h2 className="text-lg font-normal">{member.username}</h2>
+        <p className="text-md font-light">
+          {member.isUserOwed ? "Owes you" : "You owe"}
+        </p>
+        <p className="text-end text-2xl font-bold">{member.owedAmount} €</p>
         <div className="flex w-full justify-end">
           <Button className="h-6 w-20 rounded-xl text-sm" variant="contained">
             Settle

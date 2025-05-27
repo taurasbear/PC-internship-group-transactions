@@ -37,14 +37,7 @@ public class GetTransactionsSummariesHandler : BaseHandler<GetTransactionsSummar
                 var userPortion = transaction.TransactionPortions
                     .FirstOrDefault(portion => portion.Debtor.UserId == request.userId);
 
-                if (userPortion == null)
-                {
-                    summary.OwedAmount = 0;
-                }
-                else
-                {
-                    summary.OwedAmount = userPortion.Settled ? 0 : userPortion.Amount;
-                }
+                summary.OwedAmount = userPortion == null ? 0 : userPortion.Amount;
             }
 
             response.TransactionSummaries.Add(summary);
