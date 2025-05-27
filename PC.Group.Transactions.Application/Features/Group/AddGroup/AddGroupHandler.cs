@@ -21,11 +21,11 @@ public class AddGroupHandler : IRequestHandler<AddGroupRequest>
 
     public async Task Handle(AddGroupRequest request, CancellationToken cancellationToken)
     {
-        var group = this.mapper.Map<Group>(request);
-        var member = this.mapper.Map<Member>(request);
-        group.Members.Add(member);
+        var groupToAdd = this.mapper.Map<Group>(request);
+        var memberToAdd = this.mapper.Map<Member>(request);
+        groupToAdd.Members.Add(memberToAdd);
 
-        await this.unitOfWork.GroupRepository.AddAsync(group, cancellationToken);
+        await this.unitOfWork.GroupRepository.AddAsync(groupToAdd, cancellationToken);
         await this.unitOfWork.SaveAsync(cancellationToken);
     }
 }

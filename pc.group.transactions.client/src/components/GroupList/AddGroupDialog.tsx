@@ -57,8 +57,8 @@ const AddGroupDialog: React.FC<AddGroupDialogProps> = ({ onAdd }) => {
   return (
     <Dialog onOpenChange={(open) => handleOpen(open)}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="items-end">
-          +Add group
+        <Button variant="outline" className="h-6 w-30 items-end">
+          + Add group
         </Button>
       </DialogTrigger>
       <DialogContent>

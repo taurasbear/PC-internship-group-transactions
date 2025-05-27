@@ -1,15 +1,25 @@
+import AddMemberDialog from "@/components/GroupDetails/AddMemberDialog";
 import MemberCard from "@/components/GroupDetails/MemberCard";
 import OwnTransactionCard from "@/components/GroupDetails/OwnTransactionCard";
 import TransactionCard from "@/components/GroupDetails/TransactionCard";
 import QueryBoundary from "@/components/shared/QueryBoundary";
 import { Button } from "@/components/ui/button";
 import { Route } from "@/routes/group/$groupId";
-import { useGetMembersSummaries } from "@/utils/queries/MemberQueries";
+import {
+  useAddMember,
+  useGetMembersSummaries,
+} from "@/utils/queries/MemberQueries";
 import { useGetTransactionsSummaries } from "@/utils/queries/TransactionQueries";
+import { useGetNonMemberUsers } from "@/utils/queries/UserQueries";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const GroupDetails = () => {
   const { groupId } = Route.useParams();
   const groupIdNumber = Number(groupId);
+
+  const queryClient = useQueryClient();
+  const addMember = useAddMember();
 
   const {
     data: transactions,
@@ -29,10 +39,46 @@ const GroupDetails = () => {
     groupId: groupIdNumber,
   });
 
+  const {
+    data: nonMembers,
+    error: nonMembersError,
+    isLoading: nonMembersIsLoading,
+  } = useGetNonMemberUsers({
+    groupId: groupIdNumber,
+  });
+
+  const handleAddMember = async (userId: number) => {
+    await addMember
+      .mutateAsync({ groupId: groupIdNumber, userId: userId })
+      .then(() => {
+        toast("Successfully added a member");
+        queryClient.invalidateQueries({
+          queryKey: [
+            "member-summaries",
+            {
+              userId: import.meta.env.VITE_USER_ID,
+              groupId: groupIdNumber,
+            },
+          ],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [
+            "non-members",
+            {
+              groupId: groupIdNumber,
+            },
+          ],
+        });
+      })
+      .catch((error) =>
+        toast(`Something went wrong while adding a member: ${error.message}`),
+      );
+  };
+
   return (
     <QueryBoundary
-      isLoading={groupsIsLoading || membersIsLoading}
-      error={groupsError || membersError}
+      isLoading={groupsIsLoading || membersIsLoading || nonMembersIsLoading}
+      error={groupsError || membersError || nonMembersError}
     >
       <div className="flex flex-col items-center justify-center">
         <h1 className="text-3xl font-extralight">{members?.groupTitle}</h1>
@@ -40,9 +86,10 @@ const GroupDetails = () => {
           <div className="grid w-xs gap-y-10 self-start pt-16">
             <div className="flex flex-row justify-around">
               <Button className="h-6 w-36">+ New transaction</Button>
-              <Button className="h-6 w-30" variant="outline">
-                + Add member
-              </Button>
+              <AddMemberDialog
+                onAdd={handleAddMember}
+                nonMembers={nonMembers!}
+              />
             </div>
             {members?.memberSummaries.map((member) => (
               <MemberCard key={member.memberId} member={member} />

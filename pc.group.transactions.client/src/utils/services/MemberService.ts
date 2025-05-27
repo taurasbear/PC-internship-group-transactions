@@ -1,4 +1,5 @@
 import axiosClient from "@/api/axiosClient";
+import type { AddMemberRequest } from "@/shared/types/features/member/addMember/AddMemberRequest";
 import type { GetMembersSummariesRequest } from "@/shared/types/features/member/getMembersSummaries/GetMembersSummariesRequest";
 import type GetMembersSummariesResponse from "@/shared/types/features/member/getMembersSummaries/GetMembersSummariesResponse";
 
@@ -13,6 +14,10 @@ class MemberService {
 
     const response = await axiosClient.get("/member/summaries", { params });
     return response.data;
+  }
+
+  static async AddMember(request: AddMemberRequest): Promise<void> {
+    await axiosClient.post("/member", request);
   }
 }
 
